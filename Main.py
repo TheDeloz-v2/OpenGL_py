@@ -3,6 +3,7 @@ from pygame.locals import *
 from Renderer import Renderer
 from Model import Model
 from Shaders import *
+from Obj import Obj
 import glm
 
 
@@ -15,36 +16,78 @@ clock = pygame.time.Clock()
 renderer = Renderer(screen)
 renderer.setShader(vertex_shader, fragment_shader)
 
-# x, y, z, r, g, b
-triangleData = [-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
-                0.0, 0.5, 0.0, 0.0, 1.0, 0.0,
-                0.5, -0.5, 0.0, 0.0, 0.0, 1.0,]
+#Model loading
+obj = Obj("model/model.obj")
+objData = []
 
-triangleModel = Model(triangleData)
-triangleModel.position .z = -5
-triangleModel.scale = glm.vec3(5, 5, 5)
+for face in obj.faces:
+    if len(face) == 3:
+        for vertexInfo in face:
+            vertexId, texcoordId, normalId = vertexInfo
+            vertex = obj.vertices[vertexId - 1]
+            normals = obj.normals[normalId - 1]
+            uv = obj.texcoords[texcoordId - 1]
+            uv = [uv[0], uv[1]]
+            objData.extend(vertex + uv + normals)
+    elif len(face) == 4:
+        for i in [0, 1, 2]:
+            vertexInfo = face[i]
+            vertexId, texcoordId, normalId = vertexInfo
+            vertex = obj.vertices[vertexId - 1]
+            normals = obj.normals[normalId - 1]
+            uv = obj.texcoords[texcoordId - 1]
+            uv = [uv[0], uv[1]]
+            objData.extend(vertex + uv + normals)
+        for i in [0, 2, 3]:
+            vertexInfo = face[i]
+            vertexId, texcoordId, normalId = vertexInfo
+            vertex = obj.vertices[vertexId - 1]
+            normals = obj.normals[normalId - 1]
+            uv = obj.texcoords[texcoordId - 1]
+            uv = [uv[0], uv[1]]
+            objData.extend(vertex + uv + normals)
 
-renderer.scene.append(triangleModel)
+print('Se cargo el modelo.')
+
+# Texture loading
+model = Model(objData)
+model.loadTexture("model/model.bmp")
+model.position.z = -7
+model.position.y = -3
+model.rotation.x = 90
+model.scale = glm.vec3(0.20, 0.20, 0.20)
+renderer.scene.append(model)
+print('Se cargo la textura.')
 
 isRunning = True
 while isRunning:
     deltaTime = clock.tick(60) / 1000.0
+    renderer.elapsedTime += deltaTime
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_RIGHT]:
+    if keys[K_RIGHT]:
         renderer.clearColor[0] += deltaTime
-    if keys[pygame.K_LEFT]:
+    if keys[K_LEFT]:
         renderer.clearColor[0] -= deltaTime
-    if keys[pygame.K_UP]:
+    if keys[K_UP]:
         renderer.clearColor[1] += deltaTime
-    if keys[pygame.K_DOWN]:
+    if keys[K_DOWN]:
         renderer.clearColor[1] -= deltaTime
-    if keys[pygame.K_z]:
+    if keys[K_SPACE]:
         renderer.clearColor[2] += deltaTime
-    if keys[pygame.K_x]:
+    if keys[K_LSHIFT]:
         renderer.clearColor[2] -= deltaTime
 
-    # Handle quit
+    if keys[K_d]:
+        model.rotation.y += deltaTime * 50
+    if keys[K_a]:
+        model.rotation.y -= deltaTime * 50
+    if keys[K_w]:
+        model.rotation.x += deltaTime * 50
+    if keys[K_s]:
+        model.rotation.x -= deltaTime * 50
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             isRunning = False
