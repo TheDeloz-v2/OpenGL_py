@@ -17,7 +17,7 @@ renderer = Renderer(screen)
 renderer.setShader(vertex_shader, fragment_shader)
 
 #Model loading
-obj = Obj("model/model.obj")
+obj = Obj("model/modelsus.obj")
 objData = []
 
 for face in obj.faces:
@@ -51,11 +51,14 @@ print('Se cargo el modelo.')
 
 # Texture loading
 model = Model(objData)
-model.loadTexture("model/model.bmp")
-model.position.z = -7
-model.position.y = -3
-model.rotation.x = 90
-model.scale = glm.vec3(0.20, 0.20, 0.20)
+model.loadTexture("model/modelsus.bmp")
+model.position.x = 0
+model.position.z = -12
+model.position.y = -5
+model.rotation.x = 0
+model.rotation.z = 0
+model.rotation.y = 0
+model.scale = glm.vec3(0.05, 0.05, 0.05)
 renderer.scene.append(model)
 print('Se cargo la textura.')
 
