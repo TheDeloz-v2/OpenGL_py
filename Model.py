@@ -73,6 +73,7 @@ class Model(object):
 
         #Normals
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 4*8, ctypes.c_void_p(4*5))
+        glEnableVertexAttribArray(2)
         
         # Draw
         glDrawArrays(GL_TRIANGLES, 0, len(self.vertexBuffer) // 8)

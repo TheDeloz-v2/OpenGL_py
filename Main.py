@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from Renderer import Renderer
-from Model import Model
 from Shaders import *
 from Obj import Obj
 import glm
@@ -13,54 +12,15 @@ height = 540
 pygame.init()
 screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF)
 clock = pygame.time.Clock()
+
 renderer = Renderer(screen)
 renderer.setShader(vertex_shader, fragment_shader)
-
-#Model loading
-obj = Obj("model/modelsus.obj")
-objData = []
-
-for face in obj.faces:
-    if len(face) == 3:
-        for vertexInfo in face:
-            vertexId, texcoordId, normalId = vertexInfo
-            vertex = obj.vertices[vertexId - 1]
-            normals = obj.normals[normalId - 1]
-            uv = obj.texcoords[texcoordId - 1]
-            uv = [uv[0], uv[1]]
-            objData.extend(vertex + uv + normals)
-    elif len(face) == 4:
-        for i in [0, 1, 2]:
-            vertexInfo = face[i]
-            vertexId, texcoordId, normalId = vertexInfo
-            vertex = obj.vertices[vertexId - 1]
-            normals = obj.normals[normalId - 1]
-            uv = obj.texcoords[texcoordId - 1]
-            uv = [uv[0], uv[1]]
-            objData.extend(vertex + uv + normals)
-        for i in [0, 2, 3]:
-            vertexInfo = face[i]
-            vertexId, texcoordId, normalId = vertexInfo
-            vertex = obj.vertices[vertexId - 1]
-            normals = obj.normals[normalId - 1]
-            uv = obj.texcoords[texcoordId - 1]
-            uv = [uv[0], uv[1]]
-            objData.extend(vertex + uv + normals)
-
-print('Se cargo el modelo.')
-
-# Texture loading
-model = Model(objData)
-model.loadTexture("model/modelsus.bmp")
-model.position.x = 0
-model.position.z = -12
-model.position.y = -5
-model.rotation.x = 0
-model.rotation.z = 0
-model.rotation.y = 0
-model.scale = glm.vec3(0.05, 0.05, 0.05)
-renderer.scene.append(model)
-print('Se cargo la textura.')
+obj = Obj("model/mimikyu.obj", "model/mimikyu.png")
+obj.model.position = glm.vec3(0.0, -0.5, -2.0)
+obj.model.rotation = glm.vec3(0, 0, 0)
+obj.model.scale = glm.vec3(0.5, 0.5, 0.5)
+renderer.scene.append(obj.model)
+renderer.target = obj.model.position
 
 isRunning = True
 while isRunning:
@@ -69,35 +29,50 @@ while isRunning:
     keys = pygame.key.get_pressed()
 
     if keys[K_RIGHT]:
-        renderer.clearColor[0] += deltaTime
+        obj.model.position.x += deltaTime
     if keys[K_LEFT]:
-        renderer.clearColor[0] -= deltaTime
+        obj.model.position.x -= deltaTime
     if keys[K_UP]:
-        renderer.clearColor[1] += deltaTime
+        obj.model.position.y += deltaTime
     if keys[K_DOWN]:
-        renderer.clearColor[1] -= deltaTime
+        obj.model.position.y -= deltaTime
     if keys[K_SPACE]:
-        renderer.clearColor[2] += deltaTime
+        obj.model.position.z += deltaTime
     if keys[K_LSHIFT]:
-        renderer.clearColor[2] -= deltaTime
+        obj.model.position.z -= deltaTime
 
     if keys[K_d]:
-        model.rotation.y += deltaTime * 50
+        obj.model.rotation.y += deltaTime * 50
     if keys[K_a]:
-        model.rotation.y -= deltaTime * 50
+        obj.model.rotation.y -= deltaTime * 50
     if keys[K_w]:
-        model.rotation.x += deltaTime * 50
+        obj.model.rotation.x += deltaTime * 50
     if keys[K_s]:
-        model.rotation.x -= deltaTime * 50
+        obj.model.rotation.x -= deltaTime * 50
 
+    if keys[K_q]:
+        if renderer.fatness > 0:
+            renderer.fatness -= deltaTime
+    if keys[K_e]:
+        if renderer.fatness < 1:
+            renderer.fatness += deltaTime
 
+    # Handle quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             isRunning = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 isRunning = False
+            if event.key == pygame.K_f:
+                renderer.toggleFilledMode()
+            # Handle Shaders
+            if event.key == K_0:
+                renderer.setShader(vertex_shader, fragment_shader)
+            if event.key == K_1:
+                renderer.setShader(vertex_shader, gourad_fragment_shader)
 
+    renderer.updateViewMatrix()
     renderer.render()
     pygame.display.flip()
 
