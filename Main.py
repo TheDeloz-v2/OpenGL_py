@@ -71,6 +71,12 @@ while isRunning:
                 renderer.setShader(vertex_shader, fragment_shader)
             if event.key == K_1:
                 renderer.setShader(vertex_shader, gourad_fragment_shader)
+            if event.key == K_2:
+                renderer.setShader(vertex_shader, rainbow_fragment_shader)
+            if event.key == K_3:
+                renderer.setShader(waving_vertex_shader, fragment_shader)
+            if event.key == K_4:
+                renderer.setShader(vertex_shader, shine_fragment_shader)
 
     renderer.updateViewMatrix()
     renderer.render()
