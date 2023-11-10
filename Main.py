@@ -67,16 +67,46 @@ while isRunning:
             if event.key == pygame.K_f:
                 renderer.toggleFilledMode()
             # Handle Shaders
+            
+            # Basic
             if event.key == K_0:
                 renderer.setShader(vertex_shader, fragment_shader)
+            
+            # Vertex y Mario Star
             if event.key == K_1:
-                renderer.setShader(vertex_shader, gourad_fragment_shader)
+                renderer.setShader(vertex_shader, mariostar_fragment_shader)
+                
+            # Waving y Mario Star
             if event.key == K_2:
-                renderer.setShader(vertex_shader, rainbow_fragment_shader)
+                renderer.setShader(waving_vertex_shader, mariostar_fragment_shader)
+                
+            # Glitch y Mario Star
             if event.key == K_3:
-                renderer.setShader(waving_vertex_shader, fragment_shader)
+                renderer.setShader(glitch_vertex_shader, mariostar_fragment_shader)
+            
+            # Breathing y Mario Star
             if event.key == K_4:
-                renderer.setShader(vertex_shader, shine_fragment_shader)
+                renderer.setShader(breathing_vertex_shader, mariostar_fragment_shader)
+                
+            # Vertex y Glowing Gold
+            if event.key == K_5:
+                renderer.setShader(vertex_shader, glowing_fragment_shader)
+                
+            # Waving y Glowing Gold
+            if event.key == K_6:
+                renderer.setShader(waving_vertex_shader, glowing_fragment_shader)
+                
+            # Glitch y Glowing Gold
+            if event.key == K_7:
+                renderer.setShader(glitch_vertex_shader, glowing_fragment_shader)
+                
+            # Breathing y Glowing Gold
+            if event.key == K_8:
+                renderer.setShader(breathing_vertex_shader, glowing_fragment_shader)
+            
+            # Rainbow (semi failed)
+            if event.key == K_9:
+                renderer.setShader(vertex_shader, rainbow_fragment_shader)
 
     renderer.updateViewMatrix()
     renderer.render()
