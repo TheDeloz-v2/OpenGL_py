@@ -51,13 +51,13 @@ def modelChange(direction):
         
 # Model 1: Mimikyu   
 obj = Obj("models/mimikyu/mimikyu.obj", "models/mimikyu/mimikyu.png")
-obj.model.position = glm.vec3(0.0, 0, -2.0)
+obj.model.position = glm.vec3(0.0, 0, -3.0)
 obj.model.rotation = glm.vec3(0, 0, 0)
 obj.model.scale = glm.vec3(0.5, 0.5, 0.5)
 models.append({
     'model': obj.model,
     'lightIntensity': 1.0,
-    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y + 0.5 , obj.model.position.z),
+    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y, obj.model.position.z),
     'directionalLight': glm.vec3(0.0, -1.0, -1.0),
     'backgroundImage': "backgrounds/forest.jpg"
 })
@@ -70,7 +70,7 @@ obj.model.scale = glm.vec3(0.3, 0.3, 0.3)
 models.append({
     'model': obj.model,
     'lightIntensity': 1.0,
-    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y + 0.5, obj.model.position.z),
+    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y, obj.model.position.z),
     'directionalLight': glm.vec3(0.0, -1.0, -1.0),
     'backgroundImage': "backgrounds/america.png"
 })
@@ -83,7 +83,7 @@ obj.model.scale = glm.vec3(1, 1, 1)
 models.append({
     'model': obj.model,
     'lightIntensity': 1.0,
-    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y + 0.5, obj.model.position.z),
+    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y , obj.model.position.z),
     'directionalLight': glm.vec3(0.0, -1.0, -1.0),
     'backgroundImage': "backgrounds/pedestal.jpg"
 })
@@ -96,7 +96,7 @@ obj.model.scale = glm.vec3(0.3, 0.3, 0.3)
 models.append({
     'model': obj.model,
     'lightIntensity': 1.0,
-    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y + 0.5, obj.model.position.z),
+    'lookAt': glm.vec3(obj.model.position.x, obj.model.position.y, obj.model.position.z),
     'directionalLight': glm.vec3(0.0, -1.0, -1.0),
     'backgroundImage': "backgrounds/telon.jpg"
 })
