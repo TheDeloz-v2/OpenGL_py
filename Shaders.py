@@ -145,26 +145,6 @@ void main() {
 
 # --------------------------------- My Fragment Shaders ---------------------------------
 
-# Shader to recreate rainbow colors, as time pases it change between red, orange, yellow, green, blue, indigo and violet.
-rainbow_fragment_shader = """
-#version 450 core
-
-layout (binding = 0) uniform sampler2D tex;
-
-uniform float time;
-
-in vec2 UVs;
-in vec3 normal;
-out vec4 fragColor;
-
-void main() {
-    float red = (sin(time) + 1.0) / 2.0;
-    float green = (sin(time + 2.0) + 1.0) / 2.0;
-    float blue = (sin(time + 4.0) + 1.0) / 2.0;
-    fragColor = texture(tex, UVs) * vec4(red, green, blue, 1.0);
-}
-"""
-
 # Shader to recreate Mario Star effect.
 mariostar_fragment_shader = """
 #version 450 core
