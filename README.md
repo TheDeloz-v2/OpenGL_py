@@ -6,7 +6,7 @@ Controles:
     # Modelos
     Flechas izquierda y derecha: cambiar de modelo (también su musica y fondo)
 
-    # Shaders
+    # Shaders (cualquier fragment y vertex shaders son combinables)
     '1': gourad fragment shader
     '2': glowing fragment shader
     '3': mariostart fragment shader
